@@ -245,5 +245,6 @@ struct Index {
     }
     .width('100%')
     .height('100%')
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM]) // 开启沉浸式，延伸至状态栏和导航条
   }
 }
