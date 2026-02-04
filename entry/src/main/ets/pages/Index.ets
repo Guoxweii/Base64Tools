@@ -115,107 +115,133 @@ struct Index {
         .backgroundColor('#F2F2F7') // iOS 系统灰
         .onClick(() => { this.hideKeyboard(); })
 
-      Column() {
-        // 2. 标题区
-        Row() {
-          Column() {
-            Text('Base64 隐私助手')
-              .id('titleFocus') 
-              .focusable(true) 
-              .defaultFocus(true) 
-              .fontSize(24) // 稍微调小一点，更精致
-              .fontWeight(FontWeight.Bold)
-              .fontColor('#1A1A1A')
-              .margin({ bottom: 4 })
+      // 2. 可滚动的内容区域
+      Scroll() {
+        Column() {
+          // 2.1 标题区
+          Row() {
+            Column() {
+              Text('Base64 隐私助手')
+                .id('titleFocus') 
+                .focusable(true) 
+                .defaultFocus(true) 
+                .fontSize(24) // 稍微调小一点，更精致
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1A1A1A')
+                .margin({ bottom: 4 })
+              
+              Text('阅后即焚的安全转换工具')
+                .fontSize(14)
+                .fontColor('#8E8E93')
+            }
+            .alignItems(HorizontalAlign.Start)
             
-            Text('阅后即焚的安全转换工具')
-              .fontSize(14)
+            Blank()
+            
+            // 可以放个小的 logo 或者版本号
+            Text('v2.1')
+              .fontSize(10)
               .fontColor('#8E8E93')
+              .backgroundColor('#EFEFF4')
+              .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+              .borderRadius(10)
+              .fontWeight(FontWeight.Medium)
           }
-          .alignItems(HorizontalAlign.Start)
-          
-          Blank()
-          
-          // 可以放个小的 logo 或者版本号
-          Text('v2.1')
-            .fontSize(12)
-            .fontColor('#C7C7CC')
-            .padding({ top: 4 })
-            .border({ width: 1, color: '#E5E5EA', radius: 4 })
-            .padding({ left: 6, right: 6, top: 2, bottom: 2 })
-        }
-        .width('100%')
-        .margin({ top: 48, bottom: 32 }) // 增加底部间距
-        .padding({ left: 4 })
+          .width('100%')
+          .margin({ top: 48, bottom: 32 }) // 增加底部间距
+          .padding({ left: 4 })
 
-        // 3. 输入卡片 (集成工具栏)
-        SecretBox({
-          content: $inputText,
-          title: 'INPUT', 
-          isInput: true,
-          placeholder: '在此输入内容...',
-          onScanClick: () => { this.handleScan() },
-          onClearClick: () => { this.handleClear() } // 绑定清空逻辑
-        })
-        .key(`input_${this.inputKey}`)
-        .margin({ bottom: 24 })
+          // 2.2 输入卡片 (集成工具栏)
+          SecretBox({
+            content: $inputText,
+            title: 'INPUT', 
+            isInput: true,
+            placeholder: '在此输入内容...',
+            onScanClick: () => { this.handleScan() },
+            onClearClick: () => { this.handleClear() } // 绑定清空逻辑
+          })
+          .key(`input_${this.inputKey}`)
+          .margin({ bottom: 24 })
 
-        // 4. 转换操作区
-        Row() {
-           // 加密按钮 (蓝色胶囊)
-           Button('加密 (Base64)', { type: ButtonType.Normal, stateEffect: true })
-            .onClick(() => { this.handleEncrypt() })
-            .borderRadius(24)
-            .backgroundColor('#007AFF') 
-            .fontColor('#FFFFFF')
-            .fontWeight(FontWeight.Medium)
-            .layoutWeight(1)
-            .height(48)
-            .margin({ right: 16 })
-            .shadow({ radius: 8, color: 'rgba(0, 122, 255, 0.25)', offsetY: 4 })
-
-           // 解密按钮 (白色胶囊)
-           Button('解密还原', { type: ButtonType.Normal, stateEffect: true })
-            .onClick(() => { this.handleDecrypt() })
-            .borderRadius(24)
-            .backgroundColor('#FFFFFF') 
-            .fontColor('#007AFF') 
-            .fontWeight(FontWeight.Medium)
-            .layoutWeight(1)
-            .height(48)
-            .shadow({ radius: 8, color: 'rgba(0,0,0,0.05)', offsetY: 2 })
-        }
-        .width('100%')
-        .margin({ bottom: 24 })
-
-        // 5. 结果卡片
-        if (this.outputText) {
-          Column() {
-            SecretBox({
-              content: $outputText,
-              title: 'RESULT',
-              isInput: false,
-              // 结果框也有清空和复制
-              onClearClick: () => { this.handleClear() }
-            })
-            .key(`output_${this.outputKey}`)
-            
-            // 复制销毁按钮 (轻量化设计)
-            Button('复制结果并销毁', { type: ButtonType.Normal, stateEffect: true })
-              .onClick(() => { this.handleCopyAndBurn() })
-              .borderRadius(12)
-              .backgroundColor('#FFEBEE') // 浅红背景
-              .fontColor('#D32F2F') // 深红文字
-              .fontWeight(FontWeight.Bold)
-              .width('100%')
+          // 2.3 转换操作区
+          Row() {
+             // 加密按钮 (蓝色胶囊)
+             Button('加密 (Base64)', { type: ButtonType.Normal, stateEffect: true })
+              .onClick(() => { this.handleEncrypt() })
+              .borderRadius(24)
+              .linearGradient({
+                  angle: 135,
+                  colors: [['#007AFF', 0.0], ['#0056D2', 1.0]]
+              })
+              .fontColor('#FFFFFF')
+              .fontWeight(FontWeight.Medium)
+              .layoutWeight(1)
               .height(48)
+              .margin({ right: 16 })
+              .shadow({ radius: 8, color: 'rgba(0, 122, 255, 0.3)', offsetY: 4 })
+
+             // 解密按钮 (白色胶囊)
+             Button('解密还原', { type: ButtonType.Normal, stateEffect: true })
+              .onClick(() => { this.handleDecrypt() })
+              .borderRadius(24)
+              .backgroundColor('#FFFFFF') 
+              .fontColor('#007AFF') 
+              .fontWeight(FontWeight.Medium)
+              .layoutWeight(1)
+              .height(48)
+              .shadow({ radius: 8, color: 'rgba(0,0,0,0.05)', offsetY: 2 })
+          }
+          .width('100%')
+          .margin({ bottom: 24 })
+
+          // 2.4 结果卡片
+          if (this.outputText) {
+            Column() {
+              SecretBox({
+                content: $outputText,
+                title: 'RESULT',
+                isInput: false,
+                // 结果框也有清空和复制
+                 onClearClick: () => { this.handleClear() }
+              })
+              .key(`output_${this.outputKey}`)
+              
+              // 底部按钮组
+              Row({ space: 16 }) {
+                // 清空按钮
+                Button({ type: ButtonType.Capsule, stateEffect: true }) {
+                  Text('清空')
+                    .fontSize(16)
+                    .fontColor('#8E8E93')
+                    .fontWeight(FontWeight.Medium)
+                }
+                .onClick(() => { this.handleClear() })
+                .backgroundColor(Color.White)
+                .shadow({ radius: 8, color: 'rgba(0,0,0,0.05)', offsetY: 2 }) // Capsule 时 border radius 需要很大以匹配
+                .layoutWeight(1)
+                .height(48)
+                  
+                // 复制销毁按钮
+                Button('复制结果并销毁', { type: ButtonType.Capsule, stateEffect: true }) // 改为 Capsule
+                  .onClick(() => { this.handleCopyAndBurn() })
+                  .backgroundColor('#FFEBEE') 
+                  .fontColor('#D32F2F') 
+                  .fontWeight(FontWeight.Bold)
+                  .layoutWeight(1)
+                  .height(48)
+              }
+              .width('100%')
               .margin({ top: 16 })
+            }
           }
         }
-
+        .width('100%')
+        .padding(20)
       }
       .width('100%')
-      .padding(20)
+      .height('100%')
+      .align(Alignment.Top)
+      .scrollBar(BarState.Off)
     }
     .width('100%')
     .height('100%')

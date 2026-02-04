@@ -1,0 +1,24 @@
+{
+  "forms": [
+    {
+      "name": "Base64ServiceCard",
+      "displayName": "静态服务",
+      "description": "显示静态服务状态",
+      "src": "ets/widget/pages/StaticServiceCard.ets",
+      "uiSyntax": "arkts",
+      "window": {
+        "designWidth": 720,
+        "autoDesignWidth": true
+      },
+      "colorMode": "auto",
+      "isDefault": true,
+      "updateEnabled": true,
+      "scheduledUpdateTime": "10:30",
+      "updateDuration": 1,
+      "defaultDimension": "2*2",
+      "supportDimensions": [
+        "2*2"
+      ]
+    }
+  ]
+}

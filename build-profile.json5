@@ -7,11 +7,24 @@
         "material": {
           "certpath": "/Users/guoxiongwei/.ohos/config/default_MyApplication2_z95X3gvX28SQMlr-RbVHYhVEgDs00bnA5QFmFMd4pDg=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BFC8F93194F30B3D92C8A6B94F3BFC2140E03669CC895DD863678F65EA64D0488D046A56E2369BB",
+          "keyPassword": "0000001B027B6407A393945D8996A1546A2F7BB3F8C9869AE9452C26C4640E69B478459AAE7173A4A32907",
           "profile": "/Users/guoxiongwei/.ohos/config/default_MyApplication2_z95X3gvX28SQMlr-RbVHYhVEgDs00bnA5QFmFMd4pDg=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "/Users/guoxiongwei/.ohos/config/default_MyApplication2_z95X3gvX28SQMlr-RbVHYhVEgDs00bnA5QFmFMd4pDg=.p12",
-          "storePassword": "0000001B4A71ECC4192878F97EF1F6320A2EC34AA4D07F47B9728199AA77039AB39C10B2F2021CEDC31913"
+          "storePassword": "0000001B56C039CD351E0E765A58AD8C16455BA36AFF439012E337D7E981D664AC87EBBD040ABBE0D37618"
+        }
+      },
+      {
+        "name": "release",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/guoxiongwei/.ohos/config/release_base64-tools_CmOTdtsC5dGf9vrS4Gjr0gktFdwFJkghInxF5ZWe3j4=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001BFA16507AAF911C4894A29FFB514AD51EC0245015E855B58530A268B558B2ED3FCEAF422E8E3D14",
+          "profile": "/Users/guoxiongwei/.ohos/config/release_base64-tools_CmOTdtsC5dGf9vrS4Gjr0gktFdwFJkghInxF5ZWe3j4=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/guoxiongwei/.ohos/config/release_base64-tools_CmOTdtsC5dGf9vrS4Gjr0gktFdwFJkghInxF5ZWe3j4=.p12",
+          "storePassword": "0000001BEAB11C6FBBD0EE657EEC84B53280625D3D963C29A42B6A2062A7C8A205C4C5FBE2C9FD34A89FB8"
         }
       }
     ],

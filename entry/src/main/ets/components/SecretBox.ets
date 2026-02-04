@@ -96,41 +96,18 @@ export struct SecretBox {
   
   // 1. 查看图标 (Eye)
   @Builder IconReveal(color: string) {
-    Stack() {
-      Circle()
-        .width(20)
-        .height(20)
-        .fillOpacity(0) 
-        .stroke(color)
-        .strokeWidth(2)
-      
-      Circle()
-        .width(8)
-        .height(8)
-        .fill(color)
-    }
-    .width(24)
-    .height(24)
+    Image($r('app.media.ic_eye_open'))
+      .width(24)
+      .height(24)
+      .fillColor(color)
   }
 
-  // 2. 隐藏图标 (Minus)
+  // 2. 隐藏图标 (Eye Off)
   @Builder IconHide(color: string) {
-    Stack({ alignContent: Alignment.Center }) {
-      Circle()
-        .width(20)
-        .height(20)
-        .fillOpacity(0)
-        .stroke(color)
-        .strokeWidth(2)
-      
-      Rect()
-        .width(10)
-        .height(2)
-        .fill(color)
-        .radius(1)
-    }
-    .width(24)
-    .height(24)
+    Image($r('app.media.ic_eye_close'))
+      .width(24)
+      .height(24)
+      .fillColor(color)
   }
 
   // 3. 锁定图标 (Lock)
@@ -155,16 +132,35 @@ export struct SecretBox {
     .alignContent(Alignment.Bottom)
   }
 
+  // 4. 扫描图标 (Scan) - SVG 资源版
+  @Builder IconScan(color: string) {
+    Image($r('app.media.ic_scan'))
+      .width(24)
+      .height(24)
+      .fillColor(color) // 使用 fillColor 对 SVG 进行着色
+      .objectFit(ImageFit.Contain)
+  }
+
+  // 5. 垃圾桶图标 (Trash) - SVG 资源版
+  @Builder IconTrash(color: string) {
+    Image($r('app.media.ic_trash'))
+      .width(24)
+      .height(24)
+      .fillColor(color) // 使用 fillColor 对 SVG 进行着色
+      .objectFit(ImageFit.Contain)
+  }
+
   build() {
     Column() {
       Stack({ alignContent: Alignment.TopStart }) {
         if (this.isInput) {
-           TextInput({ 
-              text: this.content, 
-              placeholder: this.placeholder 
+            TextInput({ 
+               text: this.content, 
+               placeholder: this.placeholder 
             })
               .type(this.isBlurred ? InputType.Password : InputType.Normal)
               .showPasswordIcon(false) 
+              .cancelButton({ style: CancelButtonStyle.INPUT }) // 添加自带的清除按钮
               .fontSize(16)
               .fontColor('#333333')
               .placeholderColor('#CCCCCC')
@@ -266,30 +262,13 @@ export struct SecretBox {
         Row({ space: 0 }) {
           if (this.isInput && !this.isLocked && this.onScanClick) {
              Button({ type: ButtonType.Normal }) {
-               Text('⛶').fontSize(18).fontColor('#555555').textAlign(TextAlign.Center)
+               this.IconScan('#8E8E93')
              }
              .width(44).height(44).backgroundColor('transparent').borderRadius(8)
              .onClick(() => { if(this.onScanClick) this.onScanClick() })
           }
           
-          if (this.isInput && !this.isLocked && this.onCameraClick) {
-             Button({ type: ButtonType.Normal }) {
-               Text('📷').fontSize(18).fontColor('#555555').textAlign(TextAlign.Center)
-             }
-             .width(44).height(44).backgroundColor('transparent').borderRadius(8)
-             .onClick(() => { if(this.onCameraClick) this.onCameraClick() })
-          }
-          
-          if (this.content && !this.isLocked) {
-             Button({ type: ButtonType.Normal }) {
-               Text('🗑️').fontSize(18).fontColor('#FF3B30').textAlign(TextAlign.Center)
-             }
-             .width(44).height(44).backgroundColor('transparent').borderRadius(8)
-             .onClick(() => { 
-                if (this.onClearClick) this.onClearClick();
-                else this.content = ''; 
-             })
-          }
+          // 移除垃圾桶图标
           
           Button({ type: ButtonType.Normal }) {
             if (this.isBlurred) {
@@ -311,7 +290,7 @@ export struct SecretBox {
       .width('100%')
       .height(48)
       .padding({ left: 16, right: 8 })
-      .backgroundColor('#FAFAFA') 
+      .backgroundColor('#F7F7F9') 
       .borderRadius({ bottomLeft: 16, bottomRight: 16 }) 
       .alignItems(VerticalAlign.Center)
     }
