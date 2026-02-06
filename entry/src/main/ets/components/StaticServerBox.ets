@@ -19,11 +19,11 @@ export struct StaticServerBox {
           Text('静态服务')
             .fontSize(18)
             .fontWeight(FontWeight.Bold)
-            .fontColor('#1A1A1A')
+            .fontColor($r('app.color.text_primary'))
           
           Text(this.isRunning ? '正在运行' : '已停止')
             .fontSize(14)
-            .fontColor(this.isRunning ? '#34C759' : '#8E8E93') // iOS Green or Grey
+            .fontColor(this.isRunning ? $r('app.color.brand_success') : $r('app.color.text_secondary')) // iOS Green or Grey
             .margin({ top: 4 })
         }
         .alignItems(HorizontalAlign.Start)
@@ -36,8 +36,8 @@ export struct StaticServerBox {
               this.isRunning = isOn;
             });
           })
-          .selectedColor('#007AFF')
-          .switchPointColor('#FFFFFF')
+          .selectedColor($r('app.color.brand_primary'))
+          .switchPointColor($r('app.color.text_white'))
       }
       .width('100%')
       .padding(20)
@@ -46,7 +46,7 @@ export struct StaticServerBox {
       // Details Area
       if (this.isRunning) {
         Divider()
-          .color('#F5F5F5')
+          .color($r('app.color.divider_color'))
           .width('100%')
           .strokeWidth(1)
         
@@ -54,11 +54,11 @@ export struct StaticServerBox {
           Row() {
              Text('服务地址')
                .fontSize(14)
-               .fontColor('#8E8E93')
+               .fontColor($r('app.color.text_secondary'))
              Blank()
              Text(`http://${this.serverIp}:${this.serverPort}`)
                .fontSize(16)
-               .fontColor('#007AFF')
+               .fontColor($r('app.color.brand_primary'))
                .fontWeight(FontWeight.Medium)
                .copyOption(CopyOptions.LocalDevice)
           }
@@ -68,30 +68,30 @@ export struct StaticServerBox {
           Row() {
              Text('状态')
                .fontSize(14)
-               .fontColor('#8E8E93')
+               .fontColor($r('app.color.text_secondary'))
              Blank()
              Text('在线')
                .fontSize(14)
-               .fontColor('#34C759')
+               .fontColor($r('app.color.brand_success'))
           }
           .width('100%')
           
           Text('保持应用前台运行以维持服务稳定性')
             .fontSize(12)
-            .fontColor('#C7C7CC')
+            .fontColor($r('app.color.text_tertiary'))
             .width('100%')
             .textAlign(TextAlign.Center)
             .margin({ top: 8 })
         }
         .padding(20)
-        .backgroundColor('#FAFAFA')
+        .backgroundColor($r('app.color.tool_bar_background'))
         .borderRadius({ bottomLeft: 16, bottomRight: 16 })
       }
     }
     .width('100%')
-    .backgroundColor('#FFFFFF')
+    .backgroundColor($r('app.color.card_background'))
     .borderRadius(16)
-    .shadow({ radius: 10, color: 'rgba(0,0,0,0.05)', offsetY: 2 })
+    .shadow({ radius: 10, color: $r('app.color.shadow_normal'), offsetY: 2 })
     .animation({ duration: 300, curve: Curve.FastOutSlowIn })
   }
 }

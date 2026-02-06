@@ -12,7 +12,7 @@ struct StaticServiceCard {
     .height('100%')
     .padding(0) // 强制去边距
     .margin(0)
-    .backgroundColor('#007AFF') // 设为图标主色，兜底防止白边
+    .backgroundColor($r('app.color.brand_primary')) // 设为图标主色，兜底防止白边
     .onClick(() => {
       postCardAction(this, {
         "action": "router",

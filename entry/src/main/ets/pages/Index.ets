@@ -112,7 +112,7 @@ struct Index {
       Column()
         .width('100%')
         .height('100%')
-        .backgroundColor('#F2F2F7') // iOS 系统灰
+        .backgroundColor($r('app.color.page_background')) // iOS 系统灰
         .onClick(() => { this.hideKeyboard(); })
 
       // 2. 可滚动的内容区域
@@ -127,22 +127,22 @@ struct Index {
                 .defaultFocus(true) 
                 .fontSize(24) // 稍微调小一点，更精致
                 .fontWeight(FontWeight.Bold)
-                .fontColor('#1A1A1A')
+                .fontColor($r('app.color.text_primary'))
                 .margin({ bottom: 4 })
               
               Text('阅后即焚的安全转换工具')
                 .fontSize(14)
-                .fontColor('#8E8E93')
+                .fontColor($r('app.color.text_secondary'))
             }
             .alignItems(HorizontalAlign.Start)
             
             Blank()
             
             // 可以放个小的 logo 或者版本号
-            Text('v2.1')
+            Text('v1.0beta')
               .fontSize(10)
-              .fontColor('#8E8E93')
-              .backgroundColor('#EFEFF4')
+              .fontColor($r('app.color.text_secondary'))
+              .backgroundColor($r('app.color.sub_button_background'))
               .padding({ left: 8, right: 8, top: 4, bottom: 4 })
               .borderRadius(10)
               .fontWeight(FontWeight.Medium)
@@ -171,25 +171,25 @@ struct Index {
               .borderRadius(24)
               .linearGradient({
                   angle: 135,
-                  colors: [['#007AFF', 0.0], ['#0056D2', 1.0]]
+                  colors: [[$r('app.color.brand_primary'), 0.0], [$r('app.color.brand_primary_dark'), 1.0]]
               })
-              .fontColor('#FFFFFF')
+              .fontColor($r('app.color.text_white'))
               .fontWeight(FontWeight.Medium)
               .layoutWeight(1)
               .height(48)
               .margin({ right: 16 })
-              .shadow({ radius: 8, color: 'rgba(0, 122, 255, 0.3)', offsetY: 4 })
+              .shadow({ radius: 8, color: $r('app.color.shadow_primary'), offsetY: 4 })
 
              // 解密按钮 (白色胶囊)
              Button('解密还原', { type: ButtonType.Normal, stateEffect: true })
               .onClick(() => { this.handleDecrypt() })
               .borderRadius(24)
-              .backgroundColor('#FFFFFF') 
-              .fontColor('#007AFF') 
+              .backgroundColor($r('app.color.card_background')) 
+              .fontColor($r('app.color.brand_primary')) 
               .fontWeight(FontWeight.Medium)
               .layoutWeight(1)
               .height(48)
-              .shadow({ radius: 8, color: 'rgba(0,0,0,0.05)', offsetY: 2 })
+              .shadow({ radius: 8, color: $r('app.color.shadow_normal'), offsetY: 2 })
           }
           .width('100%')
           .margin({ bottom: 24 })
@@ -212,20 +212,20 @@ struct Index {
                 Button({ type: ButtonType.Capsule, stateEffect: true }) {
                   Text('清空')
                     .fontSize(16)
-                    .fontColor('#8E8E93')
+                    .fontColor($r('app.color.text_secondary'))
                     .fontWeight(FontWeight.Medium)
                 }
                 .onClick(() => { this.handleClear() })
-                .backgroundColor(Color.White)
-                .shadow({ radius: 8, color: 'rgba(0,0,0,0.05)', offsetY: 2 }) // Capsule 时 border radius 需要很大以匹配
+                .backgroundColor($r('app.color.card_background'))
+                .shadow({ radius: 8, color: $r('app.color.shadow_normal'), offsetY: 2 }) // Capsule 时 border radius 需要很大以匹配
                 .layoutWeight(1)
                 .height(48)
                   
                 // 复制销毁按钮
                 Button('复制结果并销毁', { type: ButtonType.Capsule, stateEffect: true }) // 改为 Capsule
                   .onClick(() => { this.handleCopyAndBurn() })
-                  .backgroundColor('#FFEBEE') 
-                  .fontColor('#D32F2F') 
+                  .backgroundColor($r('app.color.danger_light_background')) 
+                  .fontColor($r('app.color.brand_danger_dark')) 
                   .fontWeight(FontWeight.Bold)
                   .layoutWeight(1)
                   .height(48)

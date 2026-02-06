@@ -95,7 +95,7 @@ export struct SecretBox {
   // === 极简几何图标 ===
   
   // 1. 查看图标 (Eye)
-  @Builder IconReveal(color: string) {
+  @Builder IconReveal(color: ResourceColor) {
     Image($r('app.media.ic_eye_open'))
       .width(24)
       .height(24)
@@ -103,7 +103,7 @@ export struct SecretBox {
   }
 
   // 2. 隐藏图标 (Eye Off)
-  @Builder IconHide(color: string) {
+  @Builder IconHide(color: ResourceColor) {
     Image($r('app.media.ic_eye_close'))
       .width(24)
       .height(24)
@@ -111,7 +111,7 @@ export struct SecretBox {
   }
 
   // 3. 锁定图标 (Lock)
-  @Builder IconLock(color: string) {
+  @Builder IconLock(color: ResourceColor) {
     Stack({ alignContent: Alignment.Bottom }) {
       Circle()
         .width(14)
@@ -133,7 +133,7 @@ export struct SecretBox {
   }
 
   // 4. 扫描图标 (Scan) - SVG 资源版
-  @Builder IconScan(color: string) {
+  @Builder IconScan(color: ResourceColor) {
     Image($r('app.media.ic_scan'))
       .width(24)
       .height(24)
@@ -142,7 +142,7 @@ export struct SecretBox {
   }
 
   // 5. 垃圾桶图标 (Trash) - SVG 资源版
-  @Builder IconTrash(color: string) {
+  @Builder IconTrash(color: ResourceColor) {
     Image($r('app.media.ic_trash'))
       .width(24)
       .height(24)
@@ -162,9 +162,9 @@ export struct SecretBox {
               .showPasswordIcon(false) 
               .cancelButton({ style: CancelButtonStyle.INPUT }) // 添加自带的清除按钮
               .fontSize(16)
-              .fontColor('#333333')
-              .placeholderColor('#CCCCCC')
-              .caretColor('#007AFF')
+              .fontColor($r('app.color.text_content'))
+              .placeholderColor($r('app.color.text_placeholder'))
+              .caretColor($r('app.color.brand_primary'))
               .backgroundColor(Color.Transparent)
               .width('100%')
               .height('100%') 
@@ -176,7 +176,7 @@ export struct SecretBox {
           Scroll() {
             Text(this.content)
               .fontSize(16)
-              .fontColor('#333333')
+              .fontColor($r('app.color.text_content'))
               .lineHeight(24)
               .width('100%')
               .padding(16)
@@ -192,25 +192,25 @@ export struct SecretBox {
             Rect()
               .width('100%')
               .height('100%')
-              .fill('rgba(255, 255, 255, 0.95)') 
+              .fill($r('app.color.blur_background')) 
               .backdropBlur(0) 
             
             Column({ space: 12 }) {
               if (this.isLocked) {
-                 this.IconLock('#FF3B30')
+                 this.IconLock($r('app.color.brand_danger'))
               } else {
-                 this.IconLock('#007AFF') 
+                 this.IconLock($r('app.color.brand_primary')) 
               }
               
               if (this.isLocked) {
                  Text('内容已销毁')
                   .fontSize(14)
-                  .fontColor('#FF3B30')
+                  .fontColor($r('app.color.brand_danger'))
                   .fontWeight(FontWeight.Medium)
               } else {
                  Text('点击查看隐藏内容')
                   .fontSize(14)
-                  .fontColor('#8E8E93')
+                  .fontColor($r('app.color.text_secondary'))
               }
             }
           }
@@ -230,11 +230,11 @@ export struct SecretBox {
         Progress({ value: this.timeLeft, total: 100, type: ProgressType.Linear })
           .width('100%')
           .height(2)
-          .color('#007AFF') 
-          .backgroundColor('#F5F5F5')
+          .color($r('app.color.brand_primary')) 
+          .backgroundColor($r('app.color.divider_color'))
       } else {
         Divider()
-          .color('#F5F5F5')
+          .color($r('app.color.divider_color'))
           .width('100%')
           .strokeWidth(1)
       }
@@ -244,7 +244,7 @@ export struct SecretBox {
         if (this.isLocked) {
            Text('无法访问')
              .fontSize(12)
-             .fontColor('#FF3B30')
+             .fontColor($r('app.color.brand_danger'))
         } else {
            Row({ space: 6 }) { 
              ForEach([1, 2, 3], (index: number) => {
@@ -252,7 +252,7 @@ export struct SecretBox {
                  .width(6)
                  .height(6)
                  // 优化：未激活状态颜色加深到 #C7C7CC
-                 .fill(index > this.viewCount ? '#007AFF' : '#C7C7CC') 
+                 .fill(index > this.viewCount ? $r('app.color.brand_primary') : $r('app.color.text_tertiary')) 
              })
            }
         }
@@ -262,7 +262,7 @@ export struct SecretBox {
         Row({ space: 0 }) {
           if (this.isInput && !this.isLocked && this.onScanClick) {
              Button({ type: ButtonType.Normal }) {
-               this.IconScan('#8E8E93')
+               this.IconScan($r('app.color.text_secondary'))
              }
              .width(44).height(44).backgroundColor('transparent').borderRadius(8)
              .onClick(() => { if(this.onScanClick) this.onScanClick() })
@@ -272,9 +272,9 @@ export struct SecretBox {
           
           Button({ type: ButtonType.Normal }) {
             if (this.isBlurred) {
-              this.IconReveal('#007AFF')
+              this.IconReveal($r('app.color.brand_primary'))
             } else {
-              this.IconHide('#8E8E93')
+              this.IconHide($r('app.color.text_secondary'))
             }
           }
           .width(44)
@@ -290,14 +290,14 @@ export struct SecretBox {
       .width('100%')
       .height(48)
       .padding({ left: 16, right: 8 })
-      .backgroundColor('#F7F7F9') 
+      .backgroundColor($r('app.color.tool_bar_background')) 
       .borderRadius({ bottomLeft: 16, bottomRight: 16 }) 
       .alignItems(VerticalAlign.Center)
     }
     .width('100%')
-    .backgroundColor('#FFFFFF') 
+    .backgroundColor($r('app.color.card_background')) 
     .borderRadius(16)
-    .shadow({ radius: 10, color: 'rgba(0,0,0,0.05)', offsetY: 2 })
+    .shadow({ radius: 10, color: $r('app.color.shadow_normal'), offsetY: 2 })
     .clip(true) 
   }
 }
