@@ -2,11 +2,11 @@
   "color": [
     {
       "name": "start_window_background",
-      "value": "#FFFFFF"
+      "value": "#F6F8FC"
     },
     {
       "name": "page_background",
-      "value": "#F2F2F7"
+      "value": "#F6F8FC"
     },
     {
       "name": "card_background",
@@ -14,35 +14,35 @@
     },
     {
       "name": "tool_bar_background",
-      "value": "#F7F7F9"
+      "value": "#F8FAFD"
     },
     {
       "name": "sub_button_background",
-      "value": "#EFEFF4"
+      "value": "#EAF0FA"
     },
     {
       "name": "danger_light_background",
-      "value": "#FFEBEE"
+      "value": "#FEECEF"
     },
     {
       "name": "text_primary",
-      "value": "#1A1A1A"
+      "value": "#111827"
     },
     {
       "name": "text_content",
-      "value": "#333333"
+      "value": "#1F2937"
     },
     {
       "name": "text_secondary",
-      "value": "#8E8E93"
+      "value": "#6B7280"
     },
     {
       "name": "text_tertiary",
-      "value": "#C7C7CC"
+      "value": "#9CA3AF"
     },
     {
       "name": "text_placeholder",
-      "value": "#CCCCCC"
+      "value": "#B8C0CC"
     },
     {
       "name": "text_white",
@@ -50,39 +50,39 @@
     },
     {
       "name": "brand_primary",
-      "value": "#007AFF"
+      "value": "#1677FF"
     },
     {
       "name": "brand_primary_dark",
-      "value": "#0056D2"
+      "value": "#0E5FE3"
     },
     {
       "name": "brand_success",
-      "value": "#34C759"
+      "value": "#16A34A"
     },
     {
       "name": "brand_danger",
-      "value": "#FF3B30"
+      "value": "#DC2626"
     },
     {
       "name": "brand_danger_dark",
-      "value": "#D32F2F"
+      "value": "#B91C1C"
     },
     {
       "name": "divider_color",
-      "value": "#F5F5F5"
+      "value": "#E7ECF3"
     },
     {
       "name": "shadow_normal",
-      "value": "#0D000000"
+      "value": "#14203C1A"
     },
     {
       "name": "shadow_primary",
-      "value": "#4D007AFF"
+      "value": "#2F1677FF"
     },
     {
       "name": "blur_background",
-      "value": "#F2FFFFFF"
+      "value": "#F7FFFFFF"
     }
   ]
 }

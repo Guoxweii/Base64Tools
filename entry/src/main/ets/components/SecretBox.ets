@@ -1,5 +1,3 @@
-import { curves } from '@kit.ArkUI';
-
 @Component
 export struct SecretBox {
   @Link @Watch('onContentChange') content: string;
@@ -7,18 +5,17 @@ export struct SecretBox {
   @State viewCount: number = 0;
   @State isLocked: boolean = false;
   @State timeLeft: number = 0;
-  
+
   private timerId: number = -1;
   private intervalId: number = -1;
   private maxViews: number = 3;
-  private revealDuration: number = 3000;
+  private revealDuration: number = 2000;
 
   @Prop title: string;
-  @Prop isInput: boolean = false; 
+  @Prop isInput: boolean = false;
   @Prop placeholder: string = '在此输入...';
+  @Prop contentHeight: number = 156;
 
-  // 回调
-  onCameraClick?: () => void;
   onScanClick?: () => void;
   onClearClick?: () => void;
 
@@ -52,7 +49,35 @@ export struct SecretBox {
   }
 
   startReveal() {
-    if (this.isLocked) return;
+    if (this.isInput) {
+      if (!this.isBlurred) {
+        this.clearTimers();
+        this.isBlurred = true;
+        this.timeLeft = 0;
+        return;
+      }
+      this.clearTimers();
+      this.isBlurred = false;
+      this.timeLeft = 100;
+      let step = 100 / (this.revealDuration / 30);
+      this.intervalId = setInterval(() => {
+        this.timeLeft -= step;
+        if (this.timeLeft <= 0) {
+          this.timeLeft = 0;
+          clearInterval(this.intervalId);
+          this.intervalId = -1;
+        }
+      }, 30);
+      this.timerId = setTimeout(() => {
+        this.isBlurred = true;
+        this.timeLeft = 0;
+        this.timerId = -1;
+      }, this.revealDuration);
+      return;
+    }
+    if (!this.content || this.isLocked) {
+      return;
+    }
     if (!this.isBlurred) {
       this.hideContent();
       return;
@@ -62,12 +87,12 @@ export struct SecretBox {
       return;
     }
 
-    this.isBlurred = false; 
+    this.isBlurred = false;
     this.viewCount++;
-    this.timeLeft = 100; 
+    this.timeLeft = 100;
 
     this.clearTimers();
-    let step = 100 / (this.revealDuration / 30); 
+    let step = 100 / (this.revealDuration / 30);
     this.intervalId = setInterval(() => {
       this.timeLeft -= step;
       if (this.timeLeft <= 0) {
@@ -83,8 +108,8 @@ export struct SecretBox {
 
   hideContent() {
     this.clearTimers();
-    animateTo({ duration: 300, curve: Curve.FastOutSlowIn }, () => {
-      this.isBlurred = true; 
+    animateTo({ duration: 220, curve: Curve.FastOutSlowIn }, () => {
+      this.isBlurred = true;
       this.timeLeft = 0;
     });
     if (this.viewCount >= this.maxViews) {
@@ -92,25 +117,20 @@ export struct SecretBox {
     }
   }
 
-  // === 极简几何图标 ===
-  
-  // 1. 查看图标 (Eye)
   @Builder IconReveal(color: ResourceColor) {
     Image($r('app.media.ic_eye_open'))
-      .width(24)
-      .height(24)
+      .width(22)
+      .height(22)
       .fillColor(color)
   }
 
-  // 2. 隐藏图标 (Eye Off)
   @Builder IconHide(color: ResourceColor) {
     Image($r('app.media.ic_eye_close'))
-      .width(24)
-      .height(24)
+      .width(22)
+      .height(22)
       .fillColor(color)
   }
 
-  // 3. 锁定图标 (Lock)
   @Builder IconLock(color: ResourceColor) {
     Stack({ alignContent: Alignment.Bottom }) {
       Circle()
@@ -120,7 +140,7 @@ export struct SecretBox {
         .stroke(color)
         .strokeWidth(2)
         .margin({ bottom: 10 })
-      
+
       Rect()
         .width(16)
         .height(11)
@@ -132,46 +152,109 @@ export struct SecretBox {
     .alignContent(Alignment.Bottom)
   }
 
-  // 4. 扫描图标 (Scan) - SVG 资源版
   @Builder IconScan(color: ResourceColor) {
     Image($r('app.media.ic_scan'))
-      .width(24)
-      .height(24)
-      .fillColor(color) // 使用 fillColor 对 SVG 进行着色
+      .width(16)
+      .height(16)
+      .fillColor(color)
       .objectFit(ImageFit.Contain)
   }
 
-  // 5. 垃圾桶图标 (Trash) - SVG 资源版
   @Builder IconTrash(color: ResourceColor) {
-    Image($r('app.media.ic_trash'))
-      .width(24)
-      .height(24)
-      .fillColor(color) // 使用 fillColor 对 SVG 进行着色
-      .objectFit(ImageFit.Contain)
+    Column({ space: 1 }) {
+      Rect()
+        .width(5)
+        .height(1.2)
+        .fill(color)
+        .borderRadius(1)
+
+      Rect()
+        .width(12)
+        .height(1.2)
+        .fill(color)
+        .borderRadius(1)
+
+      Stack({ alignContent: Alignment.Center }) {
+        Rect()
+          .width(10)
+          .height(9)
+          .fillOpacity(0)
+          .stroke(color)
+          .strokeWidth(1.2)
+          .radius(2)
+
+        Row({ space: 2 }) {
+          Rect().width(1).height(5).fill(color).borderRadius(1)
+          Rect().width(1).height(5).fill(color).borderRadius(1)
+        }
+      }
+      .width(10)
+      .height(9)
+    }
+    .width(16)
+    .height(16)
+    .justifyContent(FlexAlign.Center)
+    .alignItems(HorizontalAlign.Center)
   }
 
   build() {
     Column() {
+      Row() {
+        Text(this.title)
+          .fontSize(13)
+          .fontColor($r('app.color.text_secondary'))
+          .fontWeight(FontWeight.Medium)
+
+        Blank()
+
+        if (this.onClearClick && this.isInput) {
+          Button({ type: ButtonType.Normal }) {
+            this.IconTrash($r('app.color.text_tertiary'))
+          }
+          .width(36)
+          .height(36)
+          .borderRadius(10)
+          .backgroundColor(Color.Transparent)
+          .onClick(() => {
+            if (this.onClearClick) {
+              this.onClearClick();
+            }
+          })
+        }
+      }
+      .width('100%')
+      .height(40)
+      .padding({ left: 16, right: 10 })
+
       Stack({ alignContent: Alignment.TopStart }) {
         if (this.isInput) {
-            TextInput({ 
-               text: this.content, 
-               placeholder: this.placeholder 
+          TextInput({
+            text: this.content,
+            placeholder: this.placeholder
+          })
+            .type(this.isBlurred ? InputType.Password : InputType.Normal)
+            .showPasswordIcon(false)
+            .cancelButton({ style: CancelButtonStyle.INPUT })
+            .fontSize(16)
+            .fontColor($r('app.color.text_content'))
+            .placeholderColor($r('app.color.text_placeholder'))
+            .caretColor($r('app.color.brand_primary'))
+            .backgroundColor(Color.Transparent)
+            .width('100%')
+            .height('100%')
+            .padding({ left: 16, right: 16 })
+            .onChange((value: string) => {
+              this.content = value;
             })
-              .type(this.isBlurred ? InputType.Password : InputType.Normal)
-              .showPasswordIcon(false) 
-              .cancelButton({ style: CancelButtonStyle.INPUT }) // 添加自带的清除按钮
-              .fontSize(16)
-              .fontColor($r('app.color.text_content'))
-              .placeholderColor($r('app.color.text_placeholder'))
-              .caretColor($r('app.color.brand_primary'))
-              .backgroundColor(Color.Transparent)
-              .width('100%')
-              .height('100%') 
-              .padding({ left: 16, right: 16 })
-              .onChange((value: string) => {
-                this.content = value;
-              })
+        } else if (!this.content) {
+          Column({ space: 10 }) {
+            Text('转换后结果会显示在这里')
+              .fontSize(13)
+              .fontColor($r('app.color.text_tertiary'))
+          }
+          .width('100%')
+          .height('100%')
+          .justifyContent(FlexAlign.Center)
         } else {
           Scroll() {
             Text(this.content)
@@ -183,54 +266,44 @@ export struct SecretBox {
               .visibility(this.isBlurred ? Visibility.Hidden : Visibility.Visible)
           }
           .width('100%')
-          .height('100%') 
+          .height('100%')
           .align(Alignment.TopStart)
         }
 
-        if (this.isBlurred && !this.isInput) {
+        if (this.isBlurred && !this.isInput && !!this.content) {
           Stack() {
             Rect()
               .width('100%')
               .height('100%')
-              .fill($r('app.color.blur_background')) 
-              .backdropBlur(0) 
-            
-            Column({ space: 12 }) {
-              if (this.isLocked) {
-                 this.IconLock($r('app.color.brand_danger'))
-              } else {
-                 this.IconLock($r('app.color.brand_primary')) 
-              }
-              
-              if (this.isLocked) {
-                 Text('内容已销毁')
-                  .fontSize(14)
-                  .fontColor($r('app.color.brand_danger'))
-                  .fontWeight(FontWeight.Medium)
-              } else {
-                 Text('点击查看隐藏内容')
-                  .fontSize(14)
-                  .fontColor($r('app.color.text_secondary'))
-              }
+              .fill($r('app.color.blur_background'))
+
+            Column({ space: 10 }) {
+              Text('••••••••••••')
+                .fontSize(22)
+                .fontWeight(FontWeight.Medium)
+                .fontColor(this.isLocked ? $r('app.color.brand_danger') : $r('app.color.text_primary'))
+              Text(this.isLocked ? '查看次数已耗尽' : '点击查看隐藏内容')
+                .fontSize(14)
+                .fontColor(this.isLocked ? $r('app.color.brand_danger') : $r('app.color.text_secondary'))
+                .fontWeight(this.isLocked ? FontWeight.Medium : FontWeight.Regular)
             }
           }
           .width('100%')
-          .height('100%') 
+          .height('100%')
           .onClick(() => {
             this.startReveal();
           })
         }
       }
       .width('100%')
-      .height(140) 
-      .animation({ duration: 300, curve: Curve.FastOutSlowIn })
+      .height(this.contentHeight)
+      .animation({ duration: 220, curve: Curve.FastOutSlowIn })
 
-      // === 进度条 ===
       if (this.timeLeft > 0 && !this.isBlurred) {
         Progress({ value: this.timeLeft, total: 100, type: ProgressType.Linear })
           .width('100%')
-          .height(2)
-          .color($r('app.color.brand_primary')) 
+          .height(3)
+          .color($r('app.color.brand_primary'))
           .backgroundColor($r('app.color.divider_color'))
       } else {
         Divider()
@@ -239,65 +312,81 @@ export struct SecretBox {
           .strokeWidth(1)
       }
 
-      // === 底部工具栏 ===
       Row() {
         if (this.isLocked) {
-           Text('无法访问')
-             .fontSize(12)
-             .fontColor($r('app.color.brand_danger'))
+          Text('不可访问')
+            .fontSize(12)
+            .fontColor($r('app.color.brand_danger'))
+        } else if (this.content && !this.isInput) {
+          Row({ space: 8 }) {
+            Text('剩余查看')
+              .fontSize(12)
+              .fontColor($r('app.color.text_tertiary'))
+            Row({ space: 6 }) {
+              ForEach([1, 2, 3], (index: number) => {
+                Circle()
+                  .width(6)
+                  .height(6)
+                  .fill(index > this.viewCount ? $r('app.color.brand_primary') : $r('app.color.text_tertiary'))
+              })
+            }
+          }
         } else {
-           Row({ space: 6 }) { 
-             ForEach([1, 2, 3], (index: number) => {
-               Circle()
-                 .width(6)
-                 .height(6)
-                 // 优化：未激活状态颜色加深到 #C7C7CC
-                 .fill(index > this.viewCount ? $r('app.color.brand_primary') : $r('app.color.text_tertiary')) 
-             })
-           }
+          Text(this.isInput ? '输入区' : '等待输出')
+            .fontSize(12)
+            .fontColor($r('app.color.text_tertiary'))
         }
 
         Blank()
 
-        Row({ space: 0 }) {
-          if (this.isInput && !this.isLocked && this.onScanClick) {
-             Button({ type: ButtonType.Normal }) {
-               this.IconScan($r('app.color.text_secondary'))
-             }
-             .width(44).height(44).backgroundColor('transparent').borderRadius(8)
-             .onClick(() => { if(this.onScanClick) this.onScanClick() })
-          }
-          
-          // 移除垃圾桶图标
-          
-          Button({ type: ButtonType.Normal }) {
-            if (this.isBlurred) {
-              this.IconReveal($r('app.color.brand_primary'))
-            } else {
-              this.IconHide($r('app.color.text_secondary'))
+        Row({ space: 4 }) {
+          if (this.isInput && this.onScanClick) {
+            Button({ type: ButtonType.Normal }) {
+              this.IconScan($r('app.color.text_tertiary'))
             }
+            .width(42)
+            .height(42)
+            .backgroundColor(Color.Transparent)
+            .borderRadius(8)
+            .onClick(() => {
+              if (this.onScanClick) {
+                this.onScanClick();
+              }
+            })
           }
-          .width(44)
-          .height(44)
-          .backgroundColor('transparent')
-          .borderRadius(8)
-          .onClick(() => {
-             this.startReveal();
-          })
+
+          if (this.isInput || !!this.content) {
+            Button({ type: ButtonType.Normal }) {
+              if (this.isBlurred) {
+                this.IconReveal($r('app.color.brand_primary'))
+              } else {
+                this.IconHide($r('app.color.text_secondary'))
+              }
+            }
+            .width(42)
+            .height(42)
+            .backgroundColor(Color.Transparent)
+            .borderRadius(8)
+            .enabled(this.isInput ? true : (!!this.content && !this.isLocked))
+            .opacity(this.isInput ? 1 : ((!!this.content && !this.isLocked) ? 1 : 0.35))
+            .onClick(() => {
+              this.startReveal();
+            })
+          }
         }
         .alignItems(VerticalAlign.Center)
       }
       .width('100%')
-      .height(48)
+      .height(44)
       .padding({ left: 16, right: 8 })
-      .backgroundColor($r('app.color.tool_bar_background')) 
-      .borderRadius({ bottomLeft: 16, bottomRight: 16 }) 
+      .backgroundColor($r('app.color.tool_bar_background'))
+      .borderRadius({ bottomLeft: 18, bottomRight: 18 })
       .alignItems(VerticalAlign.Center)
     }
     .width('100%')
-    .backgroundColor($r('app.color.card_background')) 
-    .borderRadius(16)
-    .shadow({ radius: 10, color: $r('app.color.shadow_normal'), offsetY: 2 })
-    .clip(true) 
+    .backgroundColor($r('app.color.card_background'))
+    .borderRadius(18)
+    .shadow({ radius: 18, color: $r('app.color.shadow_normal'), offsetY: 6 })
+    .clip(true)
   }
 }

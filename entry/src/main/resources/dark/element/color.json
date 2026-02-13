@@ -2,47 +2,47 @@
   "color": [
     {
       "name": "start_window_background",
-      "value": "#000000"
+      "value": "#0B1220"
     },
     {
       "name": "page_background",
-      "value": "#000000"
+      "value": "#0B1220"
     },
     {
       "name": "card_background",
-      "value": "#1C1C1E"
+      "value": "#111827"
     },
     {
       "name": "tool_bar_background",
-      "value": "#2C2C2E"
+      "value": "#1F2937"
     },
     {
       "name": "sub_button_background",
-      "value": "#3A3A3C"
+      "value": "#243043"
     },
     {
       "name": "danger_light_background",
-      "value": "#3A0C0C"
+      "value": "#3A1620"
     },
     {
       "name": "text_primary",
-      "value": "#FFFFFF"
+      "value": "#F3F4F6"
     },
     {
       "name": "text_content",
-      "value": "#E5E5EA"
+      "value": "#E5E7EB"
     },
     {
       "name": "text_secondary",
-      "value": "#8E8E93"
+      "value": "#9CA3AF"
     },
     {
       "name": "text_tertiary",
-      "value": "#48484A"
+      "value": "#6B7280"
     },
     {
       "name": "text_placeholder",
-      "value": "#636366"
+      "value": "#6B7280"
     },
     {
       "name": "text_white",
@@ -50,27 +50,27 @@
     },
     {
       "name": "brand_primary",
-      "value": "#0A84FF"
+      "value": "#60A5FA"
     },
     {
       "name": "brand_primary_dark",
-      "value": "#0056D2"
+      "value": "#3B82F6"
     },
     {
       "name": "brand_success",
-      "value": "#30D158"
+      "value": "#22C55E"
     },
     {
       "name": "brand_danger",
-      "value": "#FF453A"
+      "value": "#F87171"
     },
     {
       "name": "brand_danger_dark",
-      "value": "#D32F2F"
+      "value": "#EF4444"
     },
     {
       "name": "divider_color",
-      "value": "#38383A"
+      "value": "#334155"
     },
     {
       "name": "shadow_normal",
@@ -78,11 +78,11 @@
     },
     {
       "name": "shadow_primary",
-      "value": "#4D0A84FF"
+      "value": "#303B82F6"
     },
     {
       "name": "blur_background",
-      "value": "#F21C1C1E"
+      "value": "#F7111827"
     }
   ]
 }
